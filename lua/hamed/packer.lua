@@ -1,4 +1,4 @@
--- This eile can be loaded by calling `lua require('plugins')` from your init.vim
+-- This file can be loaded by calling `lua require('plugins')` from your init.vim
 
 -- Only required if you have packer configured as `opt`
 vim.cmd [[packadd packer.nvim]]
@@ -26,14 +26,16 @@ return require('packer').startup(function(use)
 	use('theprimeagen/harpoon')
 	use('mbbill/undotree')
 	use('tpope/vim-fugitive')
+    use('github/copilot.vim')
+    use('tpope/vim-obsession')
+    use('mattn/vim-goimports')
 
 	use {
 		'VonHeikemen/lsp-zero.nvim',
 		branch = 'v3.x',
 		requires = {
-			--- Uncomment these if you want to manage LSP servers from neovim
-			-- {'williamboman/mason.nvim'},
-			-- {'williamboman/mason-lspconfig.nvim'},
+			{'williamboman/mason.nvim'},
+			{'williamboman/mason-lspconfig.nvim'},
 
 			-- LSP Support
 			{'neovim/nvim-lspconfig'},
