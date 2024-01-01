@@ -5,60 +5,91 @@ require('lspconfig').rust_analyzer.setup({})
 require('lspconfig').golangci_lint_ls.setup({})
 require('lspconfig').gopls.setup({})
 --]]
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-require('lspconfig').gopls.setup({})
+require('lspconfig').gopls.setup({
+    cmd = { "gopls", "serve" },
+    capabilities = capabilities,
+    settings = {
+        gopls = {
+            analyses = {
+                unusedparams = true,
+                shadow = true,
+            },
+            staticcheck = true,
+        },
+    },
+    on_attach = function(client, bufnr)
+        require "lsp_signature".on_attach(signature_setup, bufnr) -- Note: add in lsp client on-attach
+    end,
+})
+
 require('lspconfig').eslint.setup({
-  --- ...
-  on_attach = function(client, bufnr)
-    vim.api.nvim_create_autocmd("BufWritePre", {
-      buffer = bufnr,
-      command = "EslintFixAll",
-    })
-  end,
+    --- ...
+    on_attach = function(client, bufnr)
+        vim.api.nvim_create_autocmd("BufWritePre", {
+            buffer = bufnr,
+            command = "EslintFixAll",
+        })
+    end,
 })
 
 require('lspconfig').emmet_language_server.setup({
-  filetypes = { "css", "eruby", "html", "javascript", "javascriptreact", "less", "sass", "scss", "svelte", "pug", "typescriptreact", "vue" },
-  -- Read more about this options in the [vscode docs](https://code.visualstudio.com/docs/editor/emmet#_emmet-configuration).
-  -- **Note:** only the options listed in the table are supported.
-  init_options = {
-    --- @type string[]
-    excludeLanguages = {},
-    --- @type table<string, any> [Emmet Docs](https://docs.emmet.io/customization/preferences/)
-    preferences = {},
-    --- @type boolean Defaults to `true`
-    showAbbreviationSuggestions = true,
-    --- @type "always" | "never" Defaults to `"always"`
-    showExpandedAbbreviation = "always",
-    --- @type boolean Defaults to `false`
-    showSuggestionsAsSnippets = false,
-    --- @type table<string, any> [Emmet Docs](https://docs.emmet.io/customization/syntax-profiles/)
-    syntaxProfiles = {},
-    --- @type table<string, string> [Emmet Docs](https://docs.emmet.io/customization/snippets/#variables)
-    variables = {},
-  },
+    filetypes = { "css", "eruby", "html", "javascript", "javascriptreact", "less", "sass", "scss", "svelte", "pug",
+        "typescriptreact", "vue" },
+    -- Read more about this options in the [vscode docs](https://code.visualstudio.com/docs/editor/emmet#_emmet-configuration).
+    -- **Note:** only the options listed in the table are supported.
+    init_options = {
+        --- @type string[]
+        excludeLanguages = {},
+        --- @type table<string, any> [Emmet Docs](https://docs.emmet.io/customization/preferences/)
+        preferences = {},
+        --- @type boolean Defaults to `true`
+        showAbbreviationSuggestions = true,
+        --- @type "always" | "never" Defaults to `"always"`
+        showExpandedAbbreviation = "always",
+        --- @type boolean Defaults to `false`
+        showSuggestionsAsSnippets = false,
+        --- @type table<string, any> [Emmet Docs](https://docs.emmet.io/customization/syntax-profiles/)
+        syntaxProfiles = {},
+        --- @type table<string, string> [Emmet Docs](https://docs.emmet.io/customization/snippets/#variables)
+        variables = {},
+    },
 })
 
 local cmp = require('cmp')
-local cmp_select = {behavior = cmp.SelectBehavior.Select}
-local cmp_mappings = lsp.defaults.cmp_mappings ({
-    ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
-    ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
-    ['<C-y>'] = cmp.mapping.confirm(cmp_select),
-    ['<C-Space>'] = cmp.mapping.complete(),
-})
+local cmp_select = { behavior = cmp.SelectBehavior.Select }
 
 lsp.set_preferences({
-    sign_icons = { }
+    sign_icons = {}
 })
 
 cmp.setup({
-    sources = {
-        {name = 'nvim_lsp'}
+    preselect = true,
+    completion = {
+        completeopt = 'menu,menuone,noinsert'
+    },
+    sources = cmp.config.sources({
+        { name = 'nvim_lsp' },
+        { name = 'vsnip' },
+        { name = "path" },
+        { name = "path" },
+        { name = "calc" },
+        { name = "emoji" } -- load for writing only
+    }, {
+        { name = 'buffer' },
+    }),
+    snippet = {
+        -- expand = function(args)
+        --     vim.fn["vsnip#anonymous"](args.body)
+        -- end,
+    },
+    window = {
+        completion = cmp.config.window.bordered()
     },
     mapping = cmp.mapping.preset.insert({
         -- `Enter` key to confirm completion
-        ['<CR>'] = cmp.mapping.confirm({select = false}),
+        ['<CR>'] = cmp.mapping.confirm({ select = false }),
 
         -- Ctrl+Space to trigger completion menu
         ['<C-Space>'] = cmp.mapping.complete(),
@@ -83,9 +114,9 @@ lsp.set_preferences({
 lsp.on_attach(function(client, bufnr)
     -- see :help lsp-zero-keybindings
     -- to learn the available actions
-    lsp.default_keymaps({buffer = bufnr})
+    lsp.default_keymaps({ buffer = bufnr })
 
-    local opts = {buffer = bufnr, remap = false}
+    local opts = { buffer = bufnr, remap = false }
 
     vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
     vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
@@ -122,4 +153,3 @@ require('mason-lspconfig').setup({
         lsp_zero.default_setup,
     },
 })
-

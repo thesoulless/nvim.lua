@@ -29,6 +29,9 @@ return require('packer').startup(function(use)
     use('github/copilot.vim')
     use('tpope/vim-obsession')
     use('mattn/vim-goimports')
+    use('ray-x/lsp_signature.nvim')
+    -- use('hrsh7th/vim-vsnip')
+    -- use('hrsh7th/vim-vsnip-integ')
 
 	use {
 		'VonHeikemen/lsp-zero.nvim',
