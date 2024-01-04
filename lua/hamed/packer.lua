@@ -32,6 +32,7 @@ return require('packer').startup(function(use)
     use('ray-x/lsp_signature.nvim')
     -- use('hrsh7th/vim-vsnip')
     -- use('hrsh7th/vim-vsnip-integ')
+    use('nvim-treesitter/nvim-treesitter-context')
 
 	use {
 		'VonHeikemen/lsp-zero.nvim',
