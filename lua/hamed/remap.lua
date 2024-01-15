@@ -20,7 +20,7 @@ vim.keymap.set("n", "<leader>Y", [["+Y]])
 
 vim.keymap.set({"n", "v"}, "<leader>d", [["_d]])
 
--- vim.keymap.set("i", "<C-c>", "<Esc>")
+vim.keymap.set("i", "<C-c>", "<Esc>")
 
 vim.keymap.set("n", "Q", "<nop>")
 -- vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
@@ -41,3 +41,7 @@ vim.keymap.set("n", "<leader><leader>", function()
     vim.cmd("so")
 end)
 
+vim.keymap.set({"n", "v"}, "<C-A>", "<C-a>")
+
+vim.keymap.set('n', '<leader>gws', ':Telescope git_worktree git_worktrees<CR>')
+vim.keymap.set('n', '<leader>gwc', ':Telescope git_worktree create_git_worktree<CR>')
