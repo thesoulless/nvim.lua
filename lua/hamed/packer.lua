@@ -34,7 +34,6 @@ return require('packer').startup(function(use)
     -- use('hrsh7th/vim-vsnip-integ')
     use('nvim-treesitter/nvim-treesitter-context')
     use('ThePrimeagen/git-worktree.nvim')
-    use('hoob3rt/lualine.nvim')
     use('nvim-lua/popup.nvim')
     use('nvim-telescope/telescope-fzy-native.nvim')
 
