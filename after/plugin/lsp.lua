@@ -7,6 +7,8 @@ require('lspconfig').gopls.setup({})
 --]]
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
+require('lspconfig').pyright.setup{}
+
 require('lspconfig').gopls.setup({
     cmd = { "gopls", "serve" },
     capabilities = capabilities,
@@ -147,7 +149,8 @@ require('mason-lspconfig').setup({
         -- 'golangci_lint_ls',
         'emmet_language_server',
         'eslint',
-        'lua_ls'
+        'lua_ls',
+        'pyright'
     },
     handlers = {
         lsp_zero.default_setup,
