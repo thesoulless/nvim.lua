@@ -45,3 +45,9 @@ vim.keymap.set({"n", "v"}, "<C-A>", "<C-a>")
 
 vim.keymap.set('n', '<leader>gws', ':Telescope git_worktree git_worktrees<CR>')
 vim.keymap.set('n', '<leader>gwc', ':Telescope git_worktree create_git_worktree<CR>')
+
+vim.keymap.set(
+    "n",
+    "<leader>ee",
+    "oif err != nil {<CR>}<Esc>Oreturn err<Esc>"
+)
