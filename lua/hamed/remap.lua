@@ -51,3 +51,4 @@ vim.keymap.set(
     "<leader>ee",
     "oif err != nil {<CR>}<Esc>Oreturn err<Esc>"
 )
+vim.keymap.set("n", "<leader>y1", "<cmd>silent !afplay ~/.nvim/y1.mp3<CR>")
