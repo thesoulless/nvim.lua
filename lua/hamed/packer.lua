@@ -36,6 +36,7 @@ return require('packer').startup(function(use)
     use('ThePrimeagen/git-worktree.nvim')
     use('nvim-lua/popup.nvim')
     use('nvim-telescope/telescope-fzy-native.nvim')
+    use('tpope/vim-commentary')
 
 	use {
 		'VonHeikemen/lsp-zero.nvim',
