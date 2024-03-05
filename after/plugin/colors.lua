@@ -1,10 +1,9 @@
-function ColorMe(color)
-	color = color or "rose-pine"
-	vim.cmd.colorscheme(color)
+require("rose-pine").setup({
+    dim_inactive_windows = true,
 
-	vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-	vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
-end
+    styles = {
+        transparency = true,
+    },
+})
 
-ColorMe()
-
+vim.cmd[[colorscheme rose-pine]]
