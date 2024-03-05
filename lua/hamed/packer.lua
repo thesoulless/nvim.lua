@@ -35,6 +35,7 @@ return require('packer').startup(function(use)
     use('nvim-lua/popup.nvim')
     use('nvim-telescope/telescope-fzy-native.nvim')
     use('tpope/vim-commentary')
+    use('editorconfig/editorconfig-vim')
 
 	use {
 		'VonHeikemen/lsp-zero.nvim',
