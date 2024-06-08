@@ -7,7 +7,7 @@ require('lspconfig').gopls.setup({})
 --]]
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-require('lspconfig').pyright.setup{}
+require('lspconfig').pyright.setup {}
 
 require('lspconfig').gopls.setup({
     cmd = { "gopls", "serve" },
@@ -26,19 +26,24 @@ require('lspconfig').gopls.setup({
     end,
 })
 
-require('lspconfig').eslint.setup({
-    --- ...
-    on_attach = function(client, bufnr)
-        vim.api.nvim_create_autocmd("BufWritePre", {
-            buffer = bufnr,
-            command = "EslintFixAll",
-        })
-    end,
-})
+-- require('lspconfig').eslint.setup({
+--     --- ...
+--     on_attach = function(client, bufnr)
+--         vim.api.nvim_create_autocmd("BufWritePre", {
+--             buffer = bufnr,
+--             command = "EslintFixAll",
+--         })
+--     end,
+-- })
+
+require 'lspconfig'.biome.setup {
+    single_file_support = true,
+}
 
 require('lspconfig').emmet_language_server.setup({
-    filetypes = { "css", "eruby", "html", "javascript", "javascriptreact", "less", "sass", "scss", "svelte", "pug",
-        "typescriptreact", "vue" },
+    filetypes = { "eruby", "html",
+        "less", "sass", "scss", "svelte", "pug", "vue" },
+    -- "javascript", "javascriptreact", "typescriptreact",
     -- Read more about this options in the [vscode docs](https://code.visualstudio.com/docs/editor/emmet#_emmet-configuration).
     -- **Note:** only the options listed in the table are supported.
     init_options = {
@@ -122,6 +127,8 @@ lsp.on_attach(function(client, bufnr)
 
     vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
     vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
+    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
     vim.keymap.set("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end, opts)
     vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end, opts)
     vim.keymap.set("n", "[d", function() vim.diagnostic.goto_next() end, opts)
@@ -130,7 +137,10 @@ lsp.on_attach(function(client, bufnr)
     vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, opts)
     vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
     vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
+    vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, opts)
     vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
+    vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, opts)
+    vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
 end)
 
 lsp.setup()
@@ -148,7 +158,7 @@ require('mason-lspconfig').setup({
         'rust_analyzer',
         'gopls',
         -- 'golangci_lint_ls',
-        'emmet_language_server',
+        -- 'emmet_language_server',
         'eslint',
         'lua_ls',
         'pyright'

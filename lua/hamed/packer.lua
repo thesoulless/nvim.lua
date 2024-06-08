@@ -8,8 +8,7 @@ return require('packer').startup(function(use)
 	use 'wbthomason/packer.nvim'
 
 	use {
-		'nvim-telescope/telescope.nvim', tag = '0.1.5',
-		-- or                            , branch = '0.1.x',
+		'nvim-telescope/telescope.nvim', tag = '0.1.x',
 		requires = { {'nvim-lua/plenary.nvim'} }
 	}
 
@@ -36,6 +35,7 @@ return require('packer').startup(function(use)
     use('nvim-telescope/telescope-fzy-native.nvim')
     use('tpope/vim-commentary')
     use('editorconfig/editorconfig-vim')
+    use('ThePrimeagen/vim-be-good')
 
 	use {
 		'VonHeikemen/lsp-zero.nvim',
@@ -45,7 +45,17 @@ return require('packer').startup(function(use)
 			{'williamboman/mason-lspconfig.nvim'},
 
 			-- LSP Support
-			{'neovim/nvim-lspconfig'},
+			{
+                'neovim/nvim-lspconfig',
+                opts = {
+                    inlay_hints = {
+                        enabled = true,
+                        show_parameter_hints = true,
+                        parameter_hints_prefix = " ",
+                        other_hints_prefix = " ",
+                    },
+                },
+            },
 			-- Autocompletion
 			{'hrsh7th/nvim-cmp'},
 			{'hrsh7th/cmp-nvim-lsp'},
