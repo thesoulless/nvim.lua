@@ -9,6 +9,18 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 require('lspconfig').pyright.setup {}
 
+require('lspconfig').ccls.setup {
+  init_options = {
+    compilationDatabaseDirectory = "build";
+    index = {
+      threads = 0;
+    };
+    clang = {
+      excludeArgs = { "-frounding-math"} ;
+    };
+  }
+}
+
 require('lspconfig').gopls.setup({
     cmd = { "gopls", "serve" },
     capabilities = capabilities,
