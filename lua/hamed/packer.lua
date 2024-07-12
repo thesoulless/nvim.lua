@@ -36,6 +36,11 @@ return require('packer').startup(function(use)
     use('tpope/vim-commentary')
     use('editorconfig/editorconfig-vim')
     use('ThePrimeagen/vim-be-good')
+    use('mfussenegger/nvim-dap')
+    use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap", "nvim-neotest/nvim-nio"} }
+    use('leoluz/nvim-dap-go')
+    use('theHamsta/nvim-dap-virtual-text')
+    use('navarasu/onedark.nvim')
 
 	use {
 		'VonHeikemen/lsp-zero.nvim',
