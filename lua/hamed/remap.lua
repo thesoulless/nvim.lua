@@ -68,6 +68,43 @@ end)
 vim.keymap.set('n', '<Leader>dr', function() require('dap').repl.open() end)
 vim.keymap.set('n', '<Leader>dl', function() require('dap').run_last() end)
 
-
 vim.keymap.set('n', '<Leader>w', function() require('dapui').open() end)
 vim.keymap.set('n', '<Leader>W', function() require('dapui').close() end)
+vim.keymap.set('n', '<leader>?', function() require('dapui').eval(nil, { enter = true }) end)
+
+local set = vim.opt_local
+
+vim.api.nvim_create_autocmd("TermOpen", {
+    group = vim.api.nvim_create_augroup("custom-term-open", {}),
+    callback = function ()
+        set.number = false
+        set.relativenumber = false
+        set.scrolloff = 0
+    end,
+})
+
+vim.keymap.set("t", "<esc><esc>", "<C-\\><C-n>")
+
+vim.keymap.set("n", "<leader>T", function ()
+    vim.cmd.new()
+    vim.cmd.wincmd "J"
+    vim.api.nvim_win_set_height(0, 12)
+    vim.wo.winfixheight = true
+    vim.cmd.term()
+end)
+
+vim.keymap.set("n", "<leader>m", function()
+    -- go to the next split
+    vim.cmd("wincmd w")
+    -- get current win height
+    local height = vim.api.nvim_win_get_height(0)
+    -- set the height to 12 if it's not 12
+    if height ~= 12 then
+        vim.api.nvim_win_set_height(0, 12)
+    else
+        -- set the height to 1 if it's 12
+        vim.api.nvim_win_set_height(0, 1)
+    end
+    -- go back to the previous split
+    vim.cmd("wincmd w")
+end)
