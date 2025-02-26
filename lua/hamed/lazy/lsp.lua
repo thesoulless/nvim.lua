@@ -116,6 +116,8 @@ return {
             }
         })
 
+        require('lspconfig').nixd.setup{}
+
         local cmp_select = { behavior = cmp.SelectBehavior.Select }
 
         cmp.setup({
