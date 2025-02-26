@@ -31,3 +31,4 @@ vim.opt.updatetime = 50
 vim.opt.colorcolumn = "120"
 vim.opt.fixeol = true
 vim.opt.autoread = true
+vim.g.editorconfig = true
