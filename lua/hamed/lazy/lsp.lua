@@ -39,6 +39,8 @@ return {
                 "lua_ls",
                 "rust_analyzer",
                 "gopls",
+                "templ",
+                -- "delve"
                 -- "eslint",
                 -- "pyright",
                 -- "golangci_lint_ls",
@@ -93,11 +95,38 @@ return {
                         capabilities = capabilities,
                         settings = {
                             gopls = {
+                                codelenses = {
+                                    gc_details = false,
+                                    generate = true,
+                                    regenerate_cgo = true,
+                                    run_govulncheck = true,
+                                    test = true,
+                                    tidy = true,
+                                    upgrade_dependency = true, -- do I really want this?
+                                    vendor = true,
+                                },
+                                hints = {
+                                    assignVariableTypes = true,
+                                    compositeLiteralFields = true,
+                                    compositeLiteralTypes = true,
+                                    constantValues = true,
+                                    functionTypeParameters = true,
+                                    parameterNames = true,
+                                    rangeVariableTypes = true,
+                                },
                                 analyses = {
+                                    nilness = true,
                                     unusedparams = true,
                                     shadow = true,
+                                    unusedwrite = true,
+                                    useany = true,
                                 },
+                                gofumpt = true,
                                 staticcheck = true,
+                                usePlaceholders = true,
+                                completeUnimported = true,
+                                directoryFilters = { "-.git", "-.vscode", "-.idea", "-.vscode-test", "-node_modules", "-_data", "-.direnv", "-.devenv" },
+                                semanticTokens = true,
                             },
                         },
                         on_attach = on_attach,
@@ -116,7 +145,7 @@ return {
             }
         })
 
-        require('lspconfig').nixd.setup{}
+        require('lspconfig').nixd.setup {}
 
         local cmp_select = { behavior = cmp.SelectBehavior.Select }
 
