@@ -69,6 +69,7 @@ vim.keymap.set('n', '<Leader>dl', function() require('dap').run_last() end)
 vim.keymap.set('n', '<Leader>w', function() require('dapui').open() end)
 vim.keymap.set('n', '<Leader>W', function() require('dapui').close() end)
 vim.keymap.set('n', '<leader>?', function() require('dapui').eval(nil, { enter = true }) end)
+vim.keymap.set("n", "<leader>gd", ":GoDoc<CR>");
 
 local set = vim.opt_local
 

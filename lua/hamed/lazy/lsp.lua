@@ -103,7 +103,7 @@ return {
             ensure_installed = {
                 "lua_ls",
                 "rust_analyzer",
-                "gopls",
+                -- "gopls",
                 "templ",
                 -- "delve"
                 -- "eslint",
@@ -185,6 +185,7 @@ return {
                                     shadow = true,
                                     unusedwrite = true,
                                     useany = true,
+                                    modernize = true,
                                 },
                                 gofumpt = true,
                                 staticcheck = true,
