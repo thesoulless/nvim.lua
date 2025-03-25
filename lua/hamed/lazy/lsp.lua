@@ -73,7 +73,19 @@ return {
 
         require("conform").setup({
             formatters_by_ft = {
-            }
+                lua = { "stylua" },
+                go = { "gofumpt" },
+                rust = { "rustfmt" },
+                javascript = { "biome" },
+                typescript = { "biome" },
+                json = { "biome" },
+                python = { "ruff_format", "black" },
+                ["_"] = { "trim_whitespace" }
+            },
+            format_on_save = {
+                timeout_ms = 500,
+                lsp_fallback = true,
+            },
         })
         local cmp_lsp = require("cmp_nvim_lsp")
         local capabilities = vim.tbl_deep_extend(

@@ -19,16 +19,16 @@ return {
             -- disable_tools = true,
         },
         web_search_engine = {
-            provider = 'serpapi',
+            provider = "serpapi",
         },
         rag_service = {
             enabled = false, -- Enables the rag service, requires OPENAI_API_KEY to be set
             host_mount = os.getenv("HOME"),
-            provider = 'claude',
-            -- llm_model = 'gpt-4o',
-            -- embed_model = 'gpt-4o',
-            -- endpoint = 'https://api.openai.com/v1',
-            endpoint = 'https://api.anthropic.com',
+            provider = "claude",
+            -- llm_model = "gpt-4o",
+            -- embed_model = "gpt-4o",
+            -- endpoint = "https://api.openai.com/v1",
+            endpoint = "https://api.anthropic.com",
         },
         -- The system_prompt type supports both a string and a function that returns a string. Using a function here allows dynamically updating the prompt with mcphub
         system_prompt = function()
@@ -66,11 +66,11 @@ Follow these steps for each interaction:
                 require('mcphub.extensions.avante').mcp_tool(),
             }
         end,
-        -- auto_suggestions_provider = 'copilot',
-        -- cursor_applying_provider = 'groq',
-        -- memory_summary_provider = 'openai-gpt-4o-mini',
+        -- auto_suggestions_provider = "copilot",
+        -- cursor_applying_provider = "groq",
+        -- memory_summary_provider = "openai-gpt-4o-mini",
         -- file_selector = {
-        --     provider = 'telescope',
+        --     provider = "telescope",
         --     -- Options override for custom providers
         --     provider_opts = {},
         -- },

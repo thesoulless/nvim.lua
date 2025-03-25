@@ -1,6 +1,6 @@
 return {
     "navarasu/onedark.nvim",
-    -- cmd = require('onedard').load(),
+    lazy = false,
     config = function()
         require('onedark').setup({
             style = 'warmer',
