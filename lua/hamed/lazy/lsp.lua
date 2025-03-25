@@ -16,11 +16,65 @@ return {
     },
 
     config = function()
+        local cmp = require("cmp")
+        local luasnip = require("luasnip")
+
+        local replace_termcodes = function(str)
+            return vim.api.nvim_replace_termcodes(str, true, true, true)
+        end
+
+        local function check_backspace()
+            local col = vim.fn.col('.') - 1
+            return col == 0 or vim.fn.getline('.'):sub(col, col):match('%s')
+        end
+
+        local tab_complete = function(fallback)
+            local copilot_accept = vim.fn['copilot#Accept']
+            local copilot_keys = ''
+            if copilot_accept then
+                local ok, copilot_keys_ = pcall(copilot_accept)
+                if ok then
+                    copilot_keys = copilot_keys_
+                end
+            end
+            local has_avante, avante_api = pcall(require, 'avante.api')
+            local avante_suggestion = nil
+            if has_avante then
+                avante_suggestion = avante_api.get_suggestion()
+            end
+            local has_copilot_lua, copilot_lua_suggestion = pcall(require, 'copilot.suggestion')
+
+            local buf = vim.api.nvim_get_current_buf()
+            local buftype = vim.api.nvim_buf_get_option(buf, 'buftype')
+            if buftype == '' then
+                if copilot_keys ~= '' then
+                    vim.api.nvim_feedkeys(copilot_keys, 'i', true)
+                elseif avante_suggestion and avante_suggestion:is_visible() then
+                    avante_suggestion:accept()
+                elseif has_copilot_lua and copilot_lua_suggestion.is_visible() then
+                    copilot_lua_suggestion.accept_line()
+                elseif cmp.visible() then
+                    cmp.select_next_item()
+                elseif luasnip.expand_or_jumpable() then
+                    vim.fn.feedkeys(replace_termcodes('<Plug>luasnip-expand-or-jump'), '')
+                elseif check_backspace() then
+                    vim.fn.feedkeys(replace_termcodes('<Tab>'), 'n')
+                else
+                    if fallback then
+                        fallback()
+                    end
+                end
+            else
+                if fallback then
+                    fallback()
+                end
+            end
+        end
+
         require("conform").setup({
             formatters_by_ft = {
             }
         })
-        local cmp = require('cmp')
         local cmp_lsp = require("cmp_nvim_lsp")
         local capabilities = vim.tbl_deep_extend(
             "force",
@@ -28,7 +82,18 @@ return {
             vim.lsp.protocol.make_client_capabilities(),
             cmp_lsp.default_capabilities())
 
-        local function on_attach(client, bufnr)
+        local signature_setup = {
+            bind = true,
+            hint_enable = true,
+            hint_prefix = "🐼 ",
+            handler_opts = {
+                border = "rounded"
+            },
+            floating_window = true,
+            max_width = 80,
+        }
+
+        local function on_attach(_, bufnr)
             require("lsp_signature").on_attach(signature_setup, bufnr)
         end
 
@@ -150,6 +215,7 @@ return {
         local cmp_select = { behavior = cmp.SelectBehavior.Select }
 
         cmp.setup({
+            preselect = cmp.PreselectMode.None,
             snippet = {
                 expand = function(args)
                     require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
@@ -163,7 +229,7 @@ return {
                 ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
                 ['<C-y>'] = cmp.mapping.confirm({ select = true }),
                 ["<C-Space>"] = cmp.mapping.complete(),
-                ['<Tab>'] = nil,
+                ['<Tab>'] = tab_complete,
             }),
             sources = cmp.config.sources({
                 { name = "copilot", group_index = 2 },
@@ -173,6 +239,7 @@ return {
                 { name = "calc" },
                 { name = "emoji" }, -- load for writing only
             }, {
+                { name = 'path' },
                 { name = 'buffer' },
             }),
             completion = {
@@ -181,7 +248,13 @@ return {
             window = {
                 completion = cmp.config.window.bordered()
             },
-            preselect = true,
+            formatting = {
+                fields = { 'kind', 'abbr', 'menu' },
+                format = function(_, vim_item)
+                    vim_item.menu = vim_item.kind
+                    return vim_item
+                end,
+            },
         })
 
         vim.diagnostic.config({

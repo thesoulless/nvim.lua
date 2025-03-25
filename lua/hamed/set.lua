@@ -32,3 +32,5 @@ vim.opt.colorcolumn = "120"
 vim.opt.fixeol = true
 vim.opt.autoread = true
 vim.g.editorconfig = true
+
+vim.opt.laststatus = 3
