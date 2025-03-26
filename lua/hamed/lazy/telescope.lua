@@ -65,11 +65,17 @@ return {
             local word = vim.fn.expand("<cWORD>")
             builtin.grep_string({ search = word })
         end, { desc = "Find current WORD" })
-        vim.keymap.set("n", "<leader>ps", function()
+        vim.keymap.set("n", "<leader>pa", function()
             builtin.grep_string({ search = vim.fn.input("Grep > ") })
         end, { desc = "Grep string" })
         vim.keymap.set("n", "<leader>vh", builtin.help_tags, { desc = "Help tags" })
         vim.keymap.set("n", "<leader>pb", builtin.buffers, { desc = "Find buffers" })
         vim.keymap.set("n", "<leader>pr", builtin.oldfiles, { desc = "Recent files" })
+        vim.keymap.set("n", "<leader>ps", function()
+            builtin.live_grep({
+                glob_pattern = "!**/.git/*",
+                additional_args = { "--hidden" }
+            })
+        end, { desc = "Search all files (with hidden)" })
     end
 }
