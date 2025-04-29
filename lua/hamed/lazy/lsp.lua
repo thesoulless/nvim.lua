@@ -166,6 +166,12 @@ return {
                         }
                     }
                 end,
+                ["dprint"] = function()
+                    local lspconfig = require("lspconfig")
+                    lspconfig.dprint.setup {
+                        capabilities = capabilities,
+                    }
+                end,
                 ["gopls"] = function()
                     local lspconfig = require("lspconfig")
                     lspconfig.gopls.setup {

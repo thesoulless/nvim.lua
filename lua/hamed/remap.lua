@@ -57,8 +57,15 @@ vim.keymap.set('n', '<F11>', function() require('dap').step_into() end)
 vim.keymap.set('n', '<F12>', function() require('dap').step_out() end)
 vim.keymap.set('n', '<F8>', function() require('dap').step_back() end)
 
-vim.keymap.set('n', '<Leader>q', function() require('dap').toggle_breakpoint() store_breakpoints(false) end)
-vim.keymap.set('n', '<Leader>Q', function() require('dap').set_breakpoint(vim.fn.input('Breakpoint condition: ')) store_breakpoints(false) end)
+vim.keymap.set('n', '<Leader>q', function()
+    require('dap').toggle_breakpoint()
+    store_breakpoints(false)
+end)
+vim.keymap.set('n', '<Leader>Q',
+    function()
+        require('dap').set_breakpoint(vim.fn.input('Breakpoint condition: '))
+        store_breakpoints(false)
+    end)
 vim.keymap.set('n', '<Leader>lp', function()
     require('dap').set_breakpoint(nil, nil, vim.fn.input('Log point message: '))
     store_breakpoints(false)
@@ -75,7 +82,7 @@ local set = vim.opt_local
 
 vim.api.nvim_create_autocmd("TermOpen", {
     group = vim.api.nvim_create_augroup("custom-term-open", {}),
-    callback = function ()
+    callback = function()
         set.number = false
         set.relativenumber = false
         set.scrolloff = 0
@@ -84,7 +91,7 @@ vim.api.nvim_create_autocmd("TermOpen", {
 
 vim.keymap.set("t", "<esc><esc>", "<C-\\><C-n>")
 
-vim.keymap.set("n", "<leader>T", function ()
+vim.keymap.set("n", "<leader>T", function()
     vim.cmd.new()
     vim.cmd.wincmd "J"
     vim.api.nvim_win_set_height(0, 12)
